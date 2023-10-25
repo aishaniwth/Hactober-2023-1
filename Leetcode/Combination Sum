@@ -1,0 +1,33 @@
+//Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the 
+frequency
+ of at least one of the chosen numbers is different.
+
+The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+// answer to the problem using backtracking
+
+class Solution {
+private:
+    void getcomb(vector<int>& nums, int i, int t, vector<int>&cur, vector<vector<int>>&res){
+        if(t == 0){
+            res.push_back(cur);
+            return;
+        }
+        if(t < 0 || i >= nums.size()) return;
+        for(int k = i ; k < nums.size(); k++){
+            cur.push_back(nums[k]);
+            getcomb(nums, k, t-nums[k], cur, res);
+            cur.pop_back();
+        }
+    }
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int>cur;
+        vector<vector<int>>res;
+        getcomb(candidates, 0, target, cur, res);
+        return res;
+    }
+};
+// time complexity :  O(2^k) such that k is the sum of candidate[i] from i = 0 to size of candidate - 1.
